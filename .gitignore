@@ -12,8 +12,10 @@ ENV/
 
 # Output and temp files
 outputs/
+downloads/
 temp/
 *.log
+*.cbz
 
 # OS generated files
 .DS_Store
