@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaUz AI Studio - Mazmunli Manga Tarjima Tizimi</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Header / Yuqori Panel -->
+    <header class="header">
+        <div class="logo-area">
+            <div class="logo-icon">漫</div>
+            <div class="brand-title">MangaUz AI Studio</div>
+            <div class="badge">Mazmunli Tarjima Tizimi</div>
+        </div>
+
+        <div class="header-actions">
+            <input type="file" id="file-input" accept="image/*" style="display: none;">
+            <button class="btn" onclick="document.getElementById('file-input').click()">
+                📁 Manga Yuklash
+            </button>
+            <button class="btn" onclick="loadSample()">
+                🔄 Namunani Qayta Yuklash
+            </button>
+            <button class="btn btn-accent" id="download-btn">
+                💾 Yuklab Olish (HD)
+            </button>
+        </div>
+    </header>
+
+    <!-- Asosiy Ish Maydoni -->
+    <div class="main-layout">
+
+        <!-- Manga Ko'rish Maydoni -->
+        <main class="canvas-container">
+            <!-- Rejim Tanlash -->
+            <div class="view-controls">
+                <button class="view-btn" data-mode="original">1. Asl Manga (Original)</button>
+                <button class="view-btn" data-mode="cleaned">2. Tozalangan Pufakchalar</button>
+                <button class="view-btn active" data-mode="final">3. O'zbekcha Mazmunli Natija</button>
+            </div>
+
+            <!-- Manga Tasviri va Interaktiv Pufakchalar Qatlami -->
+            <div class="viewport-wrapper">
+                <img id="manga-image" src="" alt="Manga Sahifasi">
+                <div id="bubble-overlay" class="bubble-overlay"></div>
+            </div>
+        </main>
+
+        <!-- O'ng Yon Panel (Sozlamalar va Pufakchalar Tahrirchisi) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">⚡ Studiya Sozlamalari</div>
+                <span class="badge">{{ sfx_count }}+ SFX Ovozlar</span>
+            </div>
+
+            <div class="sidebar-content">
+                <!-- Janr va Ohang Tanlash -->
+                <div class="card">
+                    <div class="card-title">🎭 Janr va Emotsional Ohang</div>
+                    <div class="form-group">
+                        <label for="global-genre">Janr / Stil:</label>
+                        <select id="global-genre">
+                            {% for g in genres %}
+                            <option value="{{ g }}">{{ g }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">
+                        Biz shunchaki so'zma-so'z tarjima qilmaymiz — tanlangan janr (Shonen, Seinen, Komediya) qahramonning xarakteri va O'zbek tilidagi jonli jumlalarga to'liq moslashtiriladi.
+                    </p>
+                </div>
+
+                <!-- Tanlangan Pufakcha Ma'lumotlari -->
+                <div class="card" id="bubble-detail-card" style="display: none;">
+                    <div class="card-title">
+                        <span>💬 Pufakcha Tahrirchisi</span>
+                        <span id="bubble-id-span" class="badge">#1</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Asl Matn (Original):</label>
+                        <textarea id="raw-text-input" placeholder="Asl dialog matni..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>O'zbekcha Mazmunli Tarjima:</label>
+                        <textarea id="uzbek-text-input" placeholder="O'zbekcha ifoda..." style="border-color: #8b5cf6;"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="is-sfx-checkbox">
+                            Bu Tovush Effekti (SFX / Onomatopoeia)
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary" id="rerender-btn" style="width: 100%; justify-content: center;">
+                        🎨 Shriftni Qayta Chizish
+                    </button>
+                </div>
+
+                <!-- Foydali Yo'riqnoma -->
+                <div class="card" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.3);">
+                    <div class="card-title" style="color: #a78bfa;">💡 Maslahat:</div>
+                    <ul style="font-size: 12px; color: var(--text-muted); padding-left: 18px; line-height: 1.6;">
+                        <li>Sahifadagi istalgan binafsharang pufakchani bosing.</li>
+                        <li>O'zbekcha tarjimani istagan so'zlaringiz bilan o'zgartiring va <b>"Shriftni Qayta Chizish"</b> tugmasini bosing.</li>
+                        <li><b>"Mazmunli Tarjima Qilish"</b> tugmasi butun sahifani AI orqali qayta tahlil qiladi.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pastki Harakatlar Paneli -->
+            <div class="sidebar-footer">
+                <button class="btn btn-primary" id="translate-all-btn" style="flex: 1; justify-content: center; padding: 12px;">
+                    ⚡ Mazmunli Tarjima Qilish
+                </button>
+            </div>
+        </aside>
+
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
